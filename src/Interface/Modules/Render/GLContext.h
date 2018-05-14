@@ -28,7 +28,7 @@
 
 /// \author James Hughes
 /// \date   December 2012
-/// \brief  Not sure this file should go in Modules/Render. But it is an 
+/// \brief  Not sure this file should go in Modules/Render. But it is an
 ///         auxiliary file to the ViewScene render module.
 
 #ifndef INTERFACE_MODULES_RENDER_GLCONTEXT_H
@@ -38,6 +38,7 @@
 #define NOMINMAX
 
 #include <Interface/Modules/Render/GLContextPlatformCompatibility.h>
+#include <QOpenGLWidget>
 #include <Interface/Modules/Render/share.h>
 
 namespace SCIRun {
@@ -47,21 +48,20 @@ namespace Gui {
 class SCISHARE GLContext
 {
 public:
-  GLContext(QGLWidget* glWidget);
-  virtual ~GLContext();
+  GLContext(QOpenGLWidget* glWidget);
 
   /// Mandatory override from Context.
-  virtual void makeCurrent();
-  
+  void makeCurrent();
+
   /// Mandatory override from Context.
-  virtual void swapBuffers();
+  void swapBuffers();
 
 private:
 
-  QGLWidget* mGLWidget;
+  QOpenGLWidget* mGLWidget;
 };
 
 } // end of namespace SCIRun
 } // end of namespace Gui
 
-#endif 
+#endif

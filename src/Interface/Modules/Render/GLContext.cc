@@ -28,19 +28,17 @@
 
 /// \author James Hughes
 /// \date   December 2012
-/// \brief  Not sure this file should go in Modules/Render. But it is an 
+/// \brief  Not sure this file should go in Modules/Render. But it is an
 ///         auxiliary file to the ViewScene render module.
 
 #include <Interface/Modules/Render/GLContext.h>
+#include <QOpenGLContext>
+#include <QDebug>
 
 using namespace SCIRun::Gui;
 
-GLContext::GLContext(QGLWidget* glWidget) :
+GLContext::GLContext(QOpenGLWidget* glWidget) :
     mGLWidget(glWidget)
-{
-}
-
-GLContext::~GLContext()
 {
 }
 
@@ -53,6 +51,11 @@ void GLContext::makeCurrent()
 
 void GLContext::swapBuffers()
 {
-  mGLWidget->swapBuffers();
-}
+  //no longer a function
+  //mGLWidget->swapBuffers();
+  qDebug() << "mGLWidget" << mGLWidget;
+  qDebug() << "mGLWidget->context()" << mGLWidget->context();
+  qDebug() << "mGLWidget->context()->surface()" << mGLWidget->context()->surface();
+  mGLWidget->context()->swapBuffers(mGLWidget->context()->surface());
 
+}

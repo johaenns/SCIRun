@@ -47,18 +47,19 @@
 #include <Interface/Modules/Render/ES/SRInterface.h>
 #endif
 #include <QtOpenGL/QGLWidget>
+#include <QOpenGLWidget>
 
 namespace SCIRun {
 namespace Gui {
 
 class QtGLContext;
 
-class GLWidget : public QGLWidget
+class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
   Q_OBJECT
 
 public:
-  GLWidget(QtGLContext* context, QWidget* parent);
+  explicit GLWidget(QWidget* parent);
   ~GLWidget();
 
   std::shared_ptr<Render::SRInterface> getSpire() const {return mGraphics;}
@@ -74,15 +75,15 @@ public:
 Q_SIGNALS:
   void fatalError(const QString& message);
 protected:
-  virtual void mousePressEvent(QMouseEvent* event);
-  virtual void mouseMoveEvent(QMouseEvent* event);
-  virtual void mouseReleaseEvent(QMouseEvent* event);
-  virtual void wheelEvent(QWheelEvent* event);
-  virtual void keyPressEvent(QKeyEvent* event);
-  virtual void keyReleaseEvent(QKeyEvent* event);
-  virtual void initializeGL();
-  virtual void resizeGL(int width, int height);
-  void closeEvent(QCloseEvent *evt);
+  virtual void mousePressEvent(QMouseEvent* event) override;
+  virtual void mouseMoveEvent(QMouseEvent* event) override;
+  virtual void mouseReleaseEvent(QMouseEvent* event) override;
+  virtual void wheelEvent(QWheelEvent* event) override;
+  virtual void keyPressEvent(QKeyEvent* event) override;
+  virtual void keyReleaseEvent(QKeyEvent* event) override;
+  virtual void initializeGL() override;
+  virtual void resizeGL(int width, int height) override;
+  void closeEvent(QCloseEvent *evt) override;
 
 public Q_SLOTS:
   // Only use when not using threading.

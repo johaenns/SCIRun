@@ -37,6 +37,8 @@ using namespace SCIRun::Gui;
 
 int GuiApplication::run(int argc, const char* argv[])
 {
+  QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+
   QApplication app(argc, const_cast<char**>(argv));
 
   try

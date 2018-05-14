@@ -94,30 +94,42 @@ ViewSceneDialog::ViewSceneDialog(const std::string& name, ModuleStateHandle stat
 
   // Setup Qt OpenGL widget.
   QGLFormat fmt;
-  fmt.setAlpha(true);
+  //fmt.setAlpha(true);
   fmt.setRgba(true);
   fmt.setDepth(true);
-  fmt.setDoubleBuffer(true);
-  fmt.setDepthBufferSize(24);
+  //fmt.setDoubleBuffer(true);
+  //fmt.setDepthBufferSize(24);
 
-  mGLWidget = new GLWidget(new QtGLContext(fmt), parentWidget());
+  QSurfaceFormat format;
+  format.setDepthBufferSize(24);
+  format.setStencilBufferSize(8);
+  format.setAlphaBufferSize(8);
+
+
+qDebug() << "parentWidget()" << parentWidget();
+  mGLWidget = new GLWidget(this);
+  mGLWidget->setFormat(format); // must be called before the widget or its parent window gets shown
   connect(mGLWidget, SIGNAL(fatalError(const QString&)), this, SIGNAL(fatalError(const QString&)));
   connect(this, SIGNAL(mousePressSignalForTestingGeometryObjectFeedback(int, int, const std::string&)), this, SLOT(sendGeometryFeedbackToState(int, int, const std::string&)));
+//mGLWidget->initializeGL();
+  glLayout->addWidget(mGLWidget);
+  glLayout->update();
+qDebug() << "_____VS_____ mGLWidget->isValid:" << mGLWidget->isValid();
+qDebug() << "_____VS_____ mGLWidget->context:" << mGLWidget->context();
 
-  if (mGLWidget->isValid())
+//  if (mGLWidget->isValid())
   {
     // Hook up the GLWidget
-    glLayout->addWidget(mGLWidget);
-    glLayout->update();
+
 
     // Set spire transient value (should no longer be used).
     mSpire = std::weak_ptr<SRInterface>(mGLWidget->getSpire());
   }
-  else
-  {
-    /// \todo Display dialog.
-    delete mGLWidget;
-  }
+  // else
+  // {
+  //   /// \todo Display dialog.
+  //   delete mGLWidget;
+  // }
 
   {
     auto spire = mSpire.lock();

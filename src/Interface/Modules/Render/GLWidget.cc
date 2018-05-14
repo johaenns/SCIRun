@@ -46,8 +46,8 @@ const int RendererUpdateInMS = 35;
 const double updateTime = RendererUpdateInMS / 1000.0;
 
 //------------------------------------------------------------------------------
-GLWidget::GLWidget(QtGLContext* context, QWidget* parent) :
-    QGLWidget(context, parent),
+GLWidget::GLWidget(QWidget* parent) :
+    QOpenGLWidget(parent),
     mContext(new GLContext(this)),
     mCurrentTime(0.0)
 {
@@ -73,7 +73,8 @@ GLWidget::GLWidget(QtGLContext* context, QWidget* parent) :
   mTimer->start(RendererUpdateInMS);
 
   // We must disable auto buffer swap on the 'paintEvent'.
-  setAutoBufferSwap(false);
+  //setAutoBufferSwap(false);
+  qDebug() << "_____VS_____ updateBehavior:" << updateBehavior();
 }
 
 //------------------------------------------------------------------------------
@@ -90,6 +91,10 @@ GLWidget::~GLWidget()
 //------------------------------------------------------------------------------
 void GLWidget::initializeGL()
 {
+    // Set up the rendering context, load shaders and other resources, etc.:
+    initializeOpenGLFunctions();
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
 }
 
 //------------------------------------------------------------------------------
@@ -166,7 +171,7 @@ void GLWidget::closeEvent(QCloseEvent *evt)
   {
     mGraphics.reset();
   }
-  QGLWidget::closeEvent(evt);
+  QOpenGLWidget::closeEvent(evt);
 }
 
 //------------------------------------------------------------------------------
@@ -190,7 +195,7 @@ void GLWidget::updateRenderer()
 
   try
   {
-    mGraphics->doFrame(mCurrentTime, updateTime);
+    //mGraphics->doFrame(mCurrentTime, updateTime);
     mContext->swapBuffers();
   }
   catch (const SCIRun::Render::SRInterfaceFailure& e)
