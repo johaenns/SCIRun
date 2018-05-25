@@ -195,7 +195,7 @@ void GLWidget::updateRenderer()
 
   try
   {
-    //mGraphics->doFrame(mCurrentTime, updateTime);
+    mGraphics->doFrame(mCurrentTime, updateTime);
     mContext->swapBuffers();
   }
   catch (const SCIRun::Render::SRInterfaceFailure& e)

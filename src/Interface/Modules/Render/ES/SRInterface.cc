@@ -31,6 +31,7 @@
 #include <gl-platform/GLPlatform.hpp>
 #include <Interface/Modules/Render/UndefiningX11Cruft.h>
 #include <QtOpenGL/QGLWidget>
+#include <QDebug>
 
 #include <Interface/Modules/Render/ES/SRInterface.h>
 #include <Interface/Modules/Render/ES/SRCamera.h>
@@ -771,6 +772,8 @@ namespace SCIRun {
       RENDERER_LOG_FUNCTION_SCOPE;
       RENDERER_LOG("Ensure our rendering context is current on our thread.");
       DEBUG_LOG_LINE_INFO
+
+      qDebug() << "mContext" << mContext.get();
       mContext->makeCurrent();
 
       std::string objectName = obj->uniqueID();
@@ -787,8 +790,14 @@ namespace SCIRun {
 
       DEBUG_LOG_LINE_INFO
 
+      if (!mCore.getStaticComponent<ren::StaticVBOMan>())
+      {
+        qDebug() << "mCore.getStaticComponent<ren::StaticVBOMan>() is null";
+      }
       std::weak_ptr<ren::VBOMan> vm = mCore.getStaticComponent<ren::StaticVBOMan>()->instance_;
+      DEBUG_LOG_LINE_INFO
       std::weak_ptr<ren::IBOMan> im = mCore.getStaticComponent<ren::StaticIBOMan>()->instance_;
+      DEBUG_LOG_LINE_INFO
       if (std::shared_ptr<ren::VBOMan> vboMan = vm.lock())
       {
         DEBUG_LOG_LINE_INFO

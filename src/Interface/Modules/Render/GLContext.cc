@@ -53,9 +53,14 @@ void GLContext::swapBuffers()
 {
   //no longer a function
   //mGLWidget->swapBuffers();
-  qDebug() << "mGLWidget" << mGLWidget;
-  qDebug() << "mGLWidget->context()" << mGLWidget->context();
-  qDebug() << "mGLWidget->context()->surface()" << mGLWidget->context()->surface();
-  mGLWidget->context()->swapBuffers(mGLWidget->context()->surface());
+  // qDebug() << "mGLWidget" << mGLWidget;
+  // if (mGLWidget)
+  // {
+  //   qDebug() << "mGLWidget->context()" << mGLWidget->context();
+  //   if (mGLWidget->context())
+  //     qDebug() << "mGLWidget->context()->surface()" << mGLWidget->context()->surface();
+  // }
+  if (mGLWidget->context() && mGLWidget->context()->surface())
+    mGLWidget->context()->swapBuffers(mGLWidget->context()->surface());
 
 }
