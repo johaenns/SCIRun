@@ -10,13 +10,19 @@ matrix:
       dist: trusty
       sudo: required
       compiler: clang
-#    - os: osx
-#      osx_image: xcode7.2
+    - os: osx
+      osx_image: xcode6.4
+    - os: osx
+      osx_image: xcode7.2
+    - os: osx
+      osx_image: xcode8.3
+    - os: osx
+      osx_image: xcode9.3
 
 before_install:
-- date -u
-- uname -a
-- sudo apt-get install mesa-common-dev libgl1-mesa-dev mesa-utils-extra libglapi-mesa ninja-build libqt4-dev qt4-qmake libqt4-opengl-dev
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then date -u; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then uname -a; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install mesa-common-dev libgl1-mesa-dev mesa-utils-extra libglapi-mesa ninja-build libqt4-dev qt4-qmake libqt4-opengl-dev; fi
 
 script:
   - cd bin
